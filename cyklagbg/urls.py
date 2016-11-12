@@ -20,5 +20,5 @@ import webapp
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^cycklagbg/', include('webapp.urls')),
+    url(r'^cyklagbg/', include('webapp.urls')),
 ]
