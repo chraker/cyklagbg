@@ -1,11 +1,5 @@
 Django==1.10.3
-get==0.0.0
 gunicorn==19.6.0
-post==0.0.0
 psycopg2==2.6.2
-public==0.0.0
-query-string==0.0.0
-request==0.0.0
 requests==2.11.1
-setupfiles==0.0.13
 whitenoise==3.2.2

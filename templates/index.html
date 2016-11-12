@@ -1,5 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-    {% include "stations.html" with data=data %}
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            {% include "getbike.html" with data=data %}
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
 {% endblock %}

@@ -13,7 +13,21 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-from keys import db_password, secret
+
+LOCAL = True
+
+if LOCAL :
+    import keys
+
+    db_password = keys.db_password
+    secret = keys.secret
+
+    ALLOWED_HOSTS = []
+else :
+    db_password = os.environ['DB_PASSWORD']
+    secret = os.environ['SECRET']
+    ALLOWED_HOSTS = ["cyklagbg.herokuapp.com"]
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -28,7 +42,6 @@ SECRET_KEY = secret
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [cyklagbg.herokuapp.com]
 
 
 # Application definition
@@ -78,17 +91,30 @@ WSGI_APPLICATION = 'cyklagbg.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'bikestations',
-        'USER': 'postgres',
-        'PASSWORD' : db_password,
-        'HOST' : '',
-        'POST' : ''
+if LOCAL :
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'bikestations',
+            'USER': 'postgres',
+            'PASSWORD': db_password,
+            'HOST': '',
+            'POST': ''
 
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'd6idrsht1f8b0s',
+            'USER': 'ivfstvjeuporge',
+            'PASSWORD' : db_password,
+            'HOST' : 'ec2-23-23-225-158.compute-1.amazonaws.com',
+            'PORT' : '5432'
+
+        }
+    }
 
 
 # Password validation
@@ -129,19 +155,23 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+if LOCAL:
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, "static"),
+    ]
+else :
+    # Extra places for collectstatic to find static files.
+    # STATICFILES_DIRS = (
+    #     os.path.join(PROJECT_ROOT, 'static'),
+    # )
 
-# Extra places for collectstatic to find static files.
-# STATICFILES_DIRS = (
-#     os.path.join(PROJECT_ROOT, 'static'),
-# )
+    # Simplified static file serving.
+    # https://warehouse.python.org/project/whitenoise/
 
-# Simplified static file serving.
-# https://warehouse.python.org/project/whitenoise/
-
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+    STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.9/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = '/static/'
+    # Static files (CSS, JavaScript, Images)
+    # https://docs.djangoproject.com/en/1.9/howto/static-files/
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    STATIC_URL = '/static/'
