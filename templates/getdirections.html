@@ -1,0 +1,36 @@
+<script type="text/javascript" src="{{ STATIC_URL }} /static/js/jquery-3.1.1.min.js"></script>
+<script>
+  function initAutocomplete() {
+
+    // Create the search box and link it to the UI element.
+    var input = document.getElementById('location');
+    var searchBox_1 = new google.maps.places.SearchBox(input);
+
+    var input = document.getElementById('destination');
+    var searchBox_2 = new google.maps.places.SearchBox(input);
+
+  }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGTxlg3YzIgRVdPD3HFpYlMkrSyxQNHyI&libraries=places&callback=initAutocomplete" async defer></script>
+<script>
+  $( document ).ready(function() {
+        $( "#findRoute" ).click(function() {
+            alert( "Find route init:\n" + $( "#location" ).val() +"\n"+ $( "#destination" ).val());
+
+            $.get('/cyklagbg/directions/', {
+                location:  $( "#location" ).val(),
+                destination: $( "#destination" ).val()},
+                function(data){
+                    // do something
+                });
+        });
+  });
+</script>
+
+
+
+<form class="form-inline">
+    <input type="text" class="form-control controls" id="location" placeholder="Enter Your Location">
+    <input type="text" class="form-control controls" id="destination" placeholder="Enter Destination">
+    <button type="submit" class="btn btn-primary controls" id="findRoute">Find Route</button>
+</form>

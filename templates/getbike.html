@@ -1,0 +1,54 @@
+<script type="text/javascript" src="{{ STATIC_URL }} /static/js/jquery-3.1.1.min.js"></script>
+<script>
+  function initAutocomplete() {
+
+    // Create the search box and link it to the UI element.
+    var input = document.getElementById('location');
+    var searchBox_1 = new google.maps.places.SearchBox(input);
+  }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGTxlg3YzIgRVdPD3HFpYlMkrSyxQNHyI&libraries=places&callback=initAutocomplete" async defer></script>
+<script>
+  $( document ).ready(function() {
+      //find bike
+        $( "#findBike" ).click(function() {
+            $.get('/cyklagbg/bikes/', {
+                location:  $( "#location" ).val()},
+                function(data){
+                    // do something
+                });
+        });
+
+      // get geo location
+      $( "#findMe" ).click( function() {
+          var startPos;
+
+          var geoSuccess = function(position) {
+            //alert( position.coords.latitude + "," + position.coords.longitude )
+            $( "#location" ).val(position.coords.latitude + "," + position.coords.longitude );
+          };
+          var geoError = function(error) {
+            switch(error.code) {
+                case error.TIMEOUT:
+                    // The user didn't accept the callout
+                    break;
+            }
+          };
+
+          navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
+      });
+  });
+</script>
+
+
+<div class="row">
+    <div class="col-sm-6">
+        <input type="text" class="form-control" id="location" placeholder="Enter Your Location">
+    </div>
+    <div class=" col-sm-1">
+            <button type="submit" class="btn btn-primary" id="findMe">Find Me</button>
+    </div>
+    <div class=" col-sm-1">
+        <button type="submit" class="btn btn-primary" id="findBike">Find Bike</button>
+    </div>
+</div>
