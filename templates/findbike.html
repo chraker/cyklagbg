@@ -15,7 +15,7 @@
     <script>
         function initAutocomplete() {
             // Create the search box and link it to the UI element.
-            var input = $( "#location" );
+            var input = document.getElementById('location');
             var searchBox_1 = new google.maps.places.SearchBox(input);
         }
 
@@ -50,7 +50,6 @@
                 navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
             });
         });
-        initAutocomplete()
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGTxlg3YzIgRVdPD3HFpYlMkrSyxQNHyI&libraries=places&callback=initAutocomplete" async defer></script>
 
