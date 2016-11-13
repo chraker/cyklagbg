@@ -9,14 +9,8 @@ import psycopg2.extras
 
 from cyklagbg import settings
 
-LOCAL = True
-if LOCAL:
-    import keys
-    db_password = keys.db_password
-    api_token = "bbfb13cc-994c-4a5a-924e-85a5760b6e4c"
-else:
-    db_password = os.environ['DB_PASSWORD']
-    api_token=os.environ['API_TOKEN']
+db_password = os.environ['DB_PASSWORD']
+api_token=os.environ['API_TOKEN']
 
 def fetch_data():
 
