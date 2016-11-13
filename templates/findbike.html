@@ -3,9 +3,9 @@
 {% block content %}
 
     <div class="row">
-        <input type="text" class="form-control btn-block" id="location" placeholder="Enter Your Location">
+        <input type="text" class="form-control btn-block" id="location" placeholder="Enter Your Location" style="display: none;">
         <button type="submit" class="btn btn-primary btn-block" id="findBike">Find Bike</button>
-        <button type="submit" class="btn btn-primary btn-block" id="findBike2">Find Bike</button>
+        <button type="submit" class="btn btn-primary btn-block" id="findBike2" style="display: none;">Find Bike</button>
     </div>
     <div id="map-canvas"></div>
 
@@ -21,8 +21,6 @@
         }
 
         $( document ).ready(function() {
-            $( "#findBike2" ).hide();
-            $( "#location" ).hide();
 
             //find bike no geo
             $( "#findBike2" ).click(function() {
