@@ -21,18 +21,11 @@ def fetch_data():
 
     # store it to database directly, indip of django session ~~
     try:
-        if settings.LOCAL:
-            connection = psycopg2.connect(
-                dbname='d6idrsht1f8b0s',
-                user='ivfstvjeuporge',
-                host='ec2-23-23-225-158.compute-1.amazonaws.com',
-                password=db_password)
-        else :
-            connection = psycopg2.connect(
-                dbname='bikestations',
-                user='postgres',
-                host='localhost',
-                password=db_password)
+        connection = psycopg2.connect(
+            dbname='d6idrsht1f8b0s',
+            user='ivfstvjeuporge',
+            host='ec2-23-23-225-158.compute-1.amazonaws.com',
+            password=db_password)
     except:
         logging.exception("cannot connect to database")
     else:
