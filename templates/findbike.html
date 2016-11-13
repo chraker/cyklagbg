@@ -14,51 +14,45 @@
     <script type="text/javascript" src="{{ STATIC_URL }} /static/js/directions.js"></script>
 
     <script>
-      function initAutocomplete() {
+        function initAutocomplete() {
+            // Create the search box and link it to the UI element.
+            var input = document.getElementById('location');
+            var searchBox_1 = new google.maps.places.SearchBox(input);
+        }
 
-        // Create the search box and link it to the UI element.
-        var input = document.getElementById('location');
-        var searchBox_1 = new google.maps.places.SearchBox(input);
+        $( document ).ready(function() {
+            $( "#findBike2" ).hide();
+            $( "#location" ).hide();
 
-      }
-
-      $( document ).ready(function() {
-            $( "#findBike2" ).hide()
-            $( "#location" ).hide()
-
-          //find bike no geo
+            //find bike no geo
             $( "#findBike2" ).click(function() {
                 $.get('/cyklagbg/stations/findclosest', {
-                        location: $("#location").val()
-                    },
-                    function (data) {
-                        // do something
-                        initMap(data.from, data.location);
-                    });
+                            location: $("#location").val()
+                        },
+                        function (data) {
+                            // do something
+                            initMap(data.from, data.location);
+                        });
             });
 
-          //find bike with geo
+            //find bike with geo
             $( "#findBike" ).click(function() {
-              var geoSuccess = function(position) {
-                $.get('/cyklagbg/stations/findclosest', {
-                    geo_location: position.coords.latitude + "," + position.coords.longitude },
-                    function(data){
-                        // do something
-                        initMap(data.from, data.location);
-                    });
-              };
-              var geoError = function(error) {
-                    $( "#findBike" ).hide()
-                    $( "#findBike2" ).show()
-                    $( "#location" ).show()
-              };
-              navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
+                var geoSuccess = function(position) {
+                    $.get('/cyklagbg/stations/findclosest', {
+                                geo_location: position.coords.latitude + "," + position.coords.longitude },
+                            function(data){
+                                // do something
+                                initMap(data.from, data.location);
+                            });
+                };
+                var geoError = function(error) {
+                    $( "#findBike" ).hide();
+                    $( "#findBike2" ).show();
+                    $( "#location" ).slideDown() 
+                };
+                navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
             });
-
-          $( "#findMe" ).click( function() {
-
-          });
-      });
+        });
     </script>
 
 {% endblock %}

@@ -11,19 +11,22 @@ from django.template.response import TemplateResponse
 
 from webapp.models import BikeStation
 
-
+#view when finding a bike
 def findbike(request):
     data = BikeStation.objects.all()
     return TemplateResponse(request, 'findbike.html', {'data' : data, 'nbar': ''})
 
+#view for checking out all stations
 def stations(request):
     data = BikeStation.objects.all()
     return TemplateResponse(request, 'stations.html', {'data' : data, 'nbar': 'stations'})
 
+#view for getting directions
 def directions(request):
     data = BikeStation.objects.all()
     return TemplateResponse(request, 'directions.html', {'data' : data, 'nbar': 'directions'})
 
+# handles finding clsoest station thru google maps api
 def findcloseststation(request):
     if request.method == 'GET':
         gmaps = googlemaps.Client(key='AIzaSyBQfrwOpfALBdSp12oZcE5dVainE8cI3lk')

@@ -19,7 +19,7 @@ def fetch_data():
     data_dict = requests.get(url).json()
 
 
-    # store it to database directly, indipendantly if django session ~~
+    # store it to database directly, indip of django session ~~
     try:
         if settings.LOCAL:
             connection = psycopg2.connect(

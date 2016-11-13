@@ -1,6 +1,6 @@
 from django.db import models
 
-# Create your models here.
+# Model for a station
 class BikeStation(models.Model):
     name = models.CharField(max_length=100)
     available_bike_stands = models.IntegerField()
