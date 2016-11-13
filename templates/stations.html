@@ -1,4 +1,8 @@
-
+{% extends "base.html" %}
+{% block content %}
 {% for station in data %}
     <p> {{ station.name }} </p>
 {% endfor %}
+
+
+{% endblock %}

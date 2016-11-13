@@ -17,27 +17,37 @@
 <body class="body" style="background-color:#f6f6f6">
 <div class="container-fluid" style="min-height:95%; ">
     <div class="row">
-        <div class="col-sm-2">
-            <br>
-{#            <center>#}
-{#                <img src="{% static 'personal/img/profile.jpg' %}" class="responsive-img" style='max-height:100px;' alt="face">#}
-{#            </center>#}
-        </div>
-        <div class="col-sm-10">
             <br>
             <center>
                 <h3>Cyckla GBG</h3>
             </center>
-        </div>
     </div><hr>
 
+
+
     <div class="row">
-        <div class='container-fluid'>
-            <br><br>
-            {% block content %}
-            {% endblock %}
+
+        <div class="col-sm-3">
+        </div>
+
+        <div class="col-sm-6">
+            <ul class="nav nav-pills .nav-stacked">
+              <li role="presentation" class="{% if nbar == '' %}active{% endif %}"><a href="/cyklagbg/">Find Bike</a></li>
+              <li role="presentation" class="{% if nbar == 'directions' %}active{% endif %}"><a href="/cyklagbg/directions">Get Directions By Bike</a></li>
+              <li role="presentation" class="{% if nbar == 'stations' %}active{% endif %}"><a href="/cyklagbg/stations">Bike Stations</a></li>
+            </ul>
+
+            <div class='container-fluid'>
+                <br><br>
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+
+        <div class="col-sm-3">
         </div>
     </div>
+
 </div>
 <footer>
     <div class="container-fluid" style='margin-left:15px'>
