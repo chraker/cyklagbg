@@ -9,7 +9,6 @@
     </div>
     <div id="map-canvas"></div>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGTxlg3YzIgRVdPD3HFpYlMkrSyxQNHyI&libraries=places&callback=initAutocomplete" async defer></script>
     <script type="text/javascript" src="{{ STATIC_URL }} /static/js/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }} /static/js/directions.js"></script>
 
@@ -52,5 +51,6 @@
             });
         });
     </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGTxlg3YzIgRVdPD3HFpYlMkrSyxQNHyI&libraries=places&callback=initAutocomplete" async defer></script>
 
 {% endblock %}
