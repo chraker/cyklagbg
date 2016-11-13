@@ -1,6 +1,8 @@
 import json
 
+import googlemaps as googlemaps
 import requests
+from django.http import HttpResponse
 from django.shortcuts import render
 
 # Create your views here.
@@ -22,32 +24,44 @@ def directions(request):
     data = BikeStation.objects.all()
     return TemplateResponse(request, 'directions.html', {'data' : data, 'nbar': 'directions'})
 
-# def getbike(request):
-#     if request.method == 'GET':
-#         # get location as long/lat
-#         request_str = "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyCGTxlg3YzIgRVdPD3HFpYlMkrSyxQNHyI"
-#         request_str += "&address=" + request.GET['location'].replace(", ","+")
-#
-#         location = requests.get(request_str).content.decode("utf-8").replace("\n","")
-#         location = json.loads(location)
-#         loc_data = location["results"][0]["geometry"]["location"]
-#         locatior_str = str(loc_data["lat"])+","+ str(loc_data["lng"])
-#
-#         # make matrix search for bike stations
-#         request_str = "https://maps.googleapis.com/maps/api/distancematrix/json?key=AIzaSyCGTxlg3YzIgRVdPD3HFpYlMkrSyxQNHyI"
-#         request_str += "&origins=" + locatior_str
-#         request_str +="&destiantions="
-#         data = BikeStation.objects.all()
-#         for station in data:
-#             if station.available_bikes > 0 :
-#                 request_str += str(station.lat)
-#                 request_str += ","
-#                 request_str += str(station.long)
-#                 request_str += "|"
-#
-#         request_str += "&mode=walking"
-#
-#         r = requests.get(request_str)
-#
-#         # get closest station
-#         r.doh
+def findcloseststation(request):
+    if request.method == 'GET':
+        gmaps = googlemaps.Client(key='AIzaSyBQfrwOpfALBdSp12oZcE5dVainE8cI3lk')
+        # user_lcoation = gmaps.reverse_geocode(request.GET['location'])[0]["formatted_address"]
+
+        if "geo_location" in request.GET:
+            geo_loc = request.GET['geo_location']
+            if geo_loc is not None and geo_loc != '':
+                user_location =  geo_loc
+            else:
+                return()
+        elif "location" in request.GET:
+            loc = request.GET['location']
+            if loc is not None and loc != '':
+                t_loc = gmaps.geocode(loc)[0]["geometry"]["location"]
+                user_location = str(t_loc["lat"]) + "," + str(t_loc["lng"])
+            else:
+                return()
+        else:
+            return()
+
+        stations = BikeStation.objects.all()
+
+        c = 0 # temp to save quota
+        #find closest
+        result = dict()
+        result["duration"] = 100000000
+        result["from"] = user_location
+        for station in stations :
+            c+=1
+            if c == 10:
+                break
+            temp_location = ( str(station.long) + "," + str(station.lat) )
+            temp_directions = gmaps.distance_matrix(temp_location, user_location) # will probly use up quota fast...
+            temp_duration = temp_directions['rows'][0]['elements'][0]['duration']['value']
+            if temp_duration < result["duration"]:
+                result["duration"] = temp_duration
+                result["location"] = temp_location
+                result["bikes"] = station.available_bikes
+
+        return HttpResponse(json.dumps(result), content_type='application/json')

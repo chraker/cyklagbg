@@ -5,5 +5,7 @@ from webapp import views
 urlpatterns = [
     url(r'^$', views.findbike, name = "findbike"),
     url(r'^directions/$', views.directions, name='directions'),
+    url(r'^stations/findclosest/$', views.findcloseststation, name='findcloseststation'),
     url(r'^stations/$', views.stations, name='stations'),
 ]
+
