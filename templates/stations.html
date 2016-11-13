@@ -1,8 +1,21 @@
 {% extends "base.html" %}
 {% block content %}
-{% for station in data %}
-    <p> {{ station.name }} </p>
-{% endfor %}
-
-
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Available Bikes</th>
+            <th>Staus</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for station in data %}
+            <tr>
+                <td>{{ station.name }}</td>
+                <td>{{ station.available_bikes }}</td>
+                <td>{{ station.isopen }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
